@@ -3,7 +3,7 @@
     "path": "/home/shared/Docs/Universidad Catolica/2021-2/TransferenciaTecnológica/ProyectoFinal/datos-clima/.gitignore",
     "project_path": ".gitignore",
     "type": "gitignore",
-    "hash": "0",
+    "hash": "1674075231",
     "contents": "",
     "dirty": false,
     "created": 1635718091547.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1,5",
+        "cursorPosition": "1,1",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1635718116,
+    "lastKnownWriteTime": 1635718153,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1635718116336,
+    "last_content_update": 1635718153750,
     "read_only": false,
     "read_only_alternatives": []
 }
