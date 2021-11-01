@@ -1,9 +1,12 @@
 library(shiny)
-
+library(tidyverse)
 # Cargar códigos estaciones
 
 load(file = "scripts/tabla_estaciones.RData")
+
+# Constantes
 cod.estaciones = tabla_estaciones$`Código  Nacional`
+nombre.estaciones = tabla_estaciones$Nombre
 variables = c("Temperatura",
               "Humedad",
               "Viento",
@@ -14,11 +17,11 @@ ui = fluidPage(
     theme = bslib::bs_theme(bootswatch = "darkly"),
     
     # Application title
-    h2("Plataforma Datos Climáticos", align = "center"),
+    h2("Plataforma de Datos Climáticos", align = "center"),
     
     fluidRow(
         column(width = 10, offset = 1,
-            HTML("<p> La plataforma de Datos climáticos es muy fácil de usar. 
+            HTML("<p> La Plataforma de Datos Climáticos es muy fácil de usar. 
                  En el panel de la izquierda elija la estación de la cual tomar los datos, más abajo puede seleccionar un rango de fechas
                  haciendo uso de las opciones <em> Fecha Inicio</em> y <em> Fecha Termino</em>. 
                  Por último elija las variable que desea incluir en el gráfico.</p>
@@ -36,7 +39,9 @@ ui = fluidPage(
             column(width = 10,
             sidebarLayout(
                 sidebarPanel(
-                    selectInput("cod.est", "Código de Estación", cod.estaciones),
+                    #helpText("Usa los comandos de este panel para generar un gráfico según tus necesidades"),
+                    selectInput("nom.est", "Estación", nombre.estaciones),
+                    #selectInput("cod.est", "Estación", cod.estaciones),
                     dateInput("f.init", "Fecha Inicio"),
                     dateInput("f.final", "Fecha Termino"),
                     checkboxGroupInput("variables", "Variables a graficar", variables)),
@@ -60,17 +65,34 @@ ui = fluidPage(
     )
 
 
-# Define server logic required to draw a histogram
+# Define server logic
 server = function(input, output){
-    
-    output$plotPrueba = renderPlot(
-        
-        plot(x = iris$Sepal.Length, iris$Sepal.Width,
-             main = "Un gráfico de ejemplo")
-        
-    )
-    
-}
+
+        output$plotPrueba = renderPlot({
+            
+            try({
+            nombre = input$nom.est
+            indx = which(tabla_estaciones$Nombre == nombre)
+            cod.est = tabla_estaciones$`Código  Nacional`[indx]
+            #cod.est = input$cod.est
+            path.datos = paste("Datos/",  
+                                  as.character(cod.est), 
+                                  "/datos.RData",
+                                  sep = "")
+            
+            load(file = path.datos)
+            loaded = datos.est.actual %>% is_tibble()
+            
+            plot(datos.est.actual$Temperatura,
+                 main = "Un gráfico de ejemplo",
+                 type = "l", lwd = 0.75,
+                 col = "red")
+                }
+            )
+        }
+    ) 
+} 
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
