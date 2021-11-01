@@ -1,6 +1,6 @@
 *.Rproj
-/.Rproj.user/*
-.Rproj.user/*
+.Rproj.user/**
 .Rproj.user
-.token
+.RData
+
 
